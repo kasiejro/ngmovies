@@ -21,4 +21,11 @@ class MovieSerializer(serializers.ModelSerializer):
             'country',
             'poster',
             'total_seasons',
+            'plot',
         ]
+        read_only_fields = ['pk']
+
+    def validate_title(self, value):
+        if len(value) < 1:
+            raise serializers.ValidationError("This title is too short")
+        return value
