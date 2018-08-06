@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'apibasics.urls'
+ROOT_URLCONF = 'ngmovies.urls'
 
 TEMPLATES = [
     {
