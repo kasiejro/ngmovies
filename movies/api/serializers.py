@@ -9,21 +9,7 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = [
             'pk',
             'title',
-            'imdbID',
-            'type',
-            'year',
-            'runtime',
-            'genre',
-            'director',
-            'writer',
-            'actors',
-            'language',
-            'country',
-            'poster',
-            'total_seasons',
-            'plot',
         ]
-        read_only_fields = ['pk']
 
     def validate_title(self, value):
         if len(value) < 1:

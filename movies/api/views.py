@@ -2,7 +2,7 @@ from django.http import HttpResponse, Http404
 from rest_framework import generics, mixins
 
 from .serializers import  MovieSerializer
-from movies.views import get_movie_or_none
+from movies.views import get_movie_or_none, save_movie
 from movies.models import Movie
 
 
@@ -16,9 +16,9 @@ class MovieCRUView(generics.ListAPIView, mixins.CreateModelMixin):
 
     def post(self, request, *args, **kwargs):
         title = request.POST["title"]
-        response = get_movie_or_none(title)
-        movie_instance = Movie.objects.filter(title__iexact=title)
+        movie = get_movie_or_none(title)
 
-        if movie_instance is not None:
-            return HttpResponse(response)
+        if movie is not None:
+            save_movie(movie)
+            return HttpResponse(movie.text)
         return HttpResponse("This movie does not exist in this database.")
