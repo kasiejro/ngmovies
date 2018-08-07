@@ -34,12 +34,16 @@ def save_movie(movie):
     movie_instance.title = movie["Title"]
     movie_instance.genre = movie["Genre"]
     movie_instance.director = movie["Director"]
-    movie_instance.poster = movie["Poster"]
+    movie_instance.awards = movie["Awards"]
+    movie_instance.rated = movie["Rated"]
+    movie_instance.released = movie["Released"]
     if movie["Type"] == "movie":
-        pass
+        movie_instance.dvd = movie["DVD"]
+        movie_instance.boxoffice = movie["BoxOffice"]
+        movie_instance.production = movie["Production"]
+        movie_instance.website = movie["Website"]
     elif movie["Type"] == "series":
         movie_instance.total_seasons = movie["totalSeasons"]
-
 
     movie_instance.save()
 
