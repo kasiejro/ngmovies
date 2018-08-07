@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from rest_framework import generics
 
 from .serializers import  MovieSerializer,CommentSerializer
-from movies.views import get_movie_or_none, save_movie
+from movies.views import get_movie_or_none, save_movie, save_comment
 from movies.models import Movie, Comment
 
 
@@ -31,6 +31,13 @@ class CommentCRView(generics.ListCreateAPIView):
         movie_id = self.kwargs.get("movie_id")
 
         if movie_id is not None:
-            return Comment.objects.filter(movie_id=movie_id)
+            return Comment.objects.filter(movie=movie_id)
 
         return Comment.objects.all()
+
+    def post(self, request, *args, **kwargs):
+        content = request.data["content"]
+        movie_id = request.data["movie"]
+
+        new_comment = save_comment(content, movie_id)
+        return HttpResponse(new_comment)

@@ -22,7 +22,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = [
             'pk',
-            'movie_id',
+            'movie',
             'content',
         ]
 

@@ -1,6 +1,6 @@
 import requests
 
-from movies.models import Movie
+from movies.models import Movie, Comment
 
 API_URL = 'http://www.omdbapi.com'
 API_KEY = 'ffbdeb5c'
@@ -48,3 +48,12 @@ def save_movie(movie):
     movie_instance.save()
 
 
+def save_comment(content, movie_id):
+    movie = Movie.objects.get(pk=movie_id)
+
+    new_comment = Comment()
+    new_comment.movie = movie
+    new_comment.content = content
+    new_comment.save()
+
+    return  new_comment
