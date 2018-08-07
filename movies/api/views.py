@@ -14,7 +14,7 @@ class MovieCRUView(generics.ListCreateAPIView):
         return Movie.objects.all()
 
     def post(self, request, *args, **kwargs):
-        title = request.POST.get(key="t")
+        title = request.data["title"]
         movie = get_movie_or_none(title)
 
         if movie is not None:
@@ -27,8 +27,10 @@ class CommentCRView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = []
 
-    def get_queryset(self):
-        return Comment.objects.all()
+    def get_queryset(self, *args, **kwargs):
+        movie_id = self.kwargs.get("movie_id")
 
-    def post(self, request, *args, **kwargs):
-        pass
+        if movie_id is not None:
+            return Comment.objects.filter(movie_id=movie_id)
+
+        return Comment.objects.all()

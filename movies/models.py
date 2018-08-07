@@ -25,4 +25,4 @@ class Movie(models.Model):
 
 class Comment(models.Model):
     content = models.CharField(max_length=600)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    movie_id = models.ForeignKey(Movie, on_delete=models.CASCADE)
