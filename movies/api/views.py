@@ -1,8 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404, HttpResponseNotFound
 from rest_framework import generics
 
 from .serializers import  MovieSerializer,CommentSerializer
-from movies.views import get_movie_or_none, save_movie, save_comment
+from movies.views import MovieRepository, OmdAPIClient, CommentRepository
 from movies.models import Movie, Comment
 
 
@@ -14,13 +14,13 @@ class MovieCRUView(generics.ListCreateAPIView):
         return Movie.objects.all()
 
     def post(self, request, *args, **kwargs):
-        title = request.data["title"]
-        movie = get_movie_or_none(title)
+        title = request.data.get("title")
+        movie = OmdAPIClient.get_movie_or_none(title)
 
         if movie is not None:
-            save_movie(movie)
+            MovieRepository.upsert_movie(movie)
             return HttpResponse(movie.text)
-        return HttpResponse("This movie does not exist in this database.")
+        return HttpResponseNotFound("Movie not found in database.")
 
 
 class CommentCRView(generics.ListCreateAPIView):
@@ -36,8 +36,8 @@ class CommentCRView(generics.ListCreateAPIView):
         return Comment.objects.all()
 
     def post(self, request, *args, **kwargs):
-        content = request.data["content"]
-        movie_id = request.data["movie"]
+        content = request.data.get("content")
+        movie_id = request.data.get("movie")
 
-        new_comment = save_comment(content, movie_id)
+        new_comment = CommentRepository.save_comment(content, movie_id)
         return HttpResponse(new_comment)

@@ -7,8 +7,27 @@ class MovieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = [
-            'pk',
             'title',
+            'imdbID',
+            'type',
+            'year',
+            'plot',
+            'runtime',
+            'genre',
+            'director',
+            'writer',
+            'actors',
+            'language',
+            'country',
+            'poster',
+            'total_seasons',
+            'rated',
+            'released',
+            'awards',
+            'dvd',
+            'boxoffice',
+            'production',
+            'website',
         ]
 
     def validate_title(self, value):
@@ -21,7 +40,6 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
-            'pk',
             'movie',
             'content',
         ]
@@ -32,3 +50,7 @@ class CommentSerializer(serializers.ModelSerializer):
             return value
         else:
             raise serializers.ValidationError("There is no movie under this id")
+
+    def validate_content(self, value):
+        #not empty
+        pass
