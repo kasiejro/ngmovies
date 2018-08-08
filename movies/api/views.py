@@ -11,7 +11,11 @@ class MovieCRUView(generics.ListCreateAPIView):
     permission_classes = []
 
     def get_queryset(self):
-        return Movie.objects.all()
+        qs = Movie.objects.all()
+        query = self.request.GET.get("title")
+        if query is not None:
+            qs = qs.filter(title__iexact=query)
+        return qs
 
     def post(self, request, *args, **kwargs):
         title = request.data.get("title")
