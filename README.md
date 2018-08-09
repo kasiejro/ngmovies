@@ -2,15 +2,14 @@
 This project uses http://omdbapi.com.
 
 Basic requirements: Python 3.7.0 and Django 2.1
-pip3 install requirements - for installing all project requirements
-
-python manage.py runserver - for opening the application locally
+* pip3 install requirements - for installing all project requirements
+* python manage.py runserver - for opening the application locally
 
 The app can be found live at https://ngmovies-kr.herokuapp.com/
 
 Endpoints for:
-Comments - /api/comments/
-Movies - /api/movies/
+* Comments - /api/comments/
+* Movies - /api/movies/
 
 Examples:
 * Get all movies from database: GET /api/movies/ 
