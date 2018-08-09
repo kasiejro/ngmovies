@@ -45,7 +45,10 @@ class CommentCRView(generics.ListCreateAPIView):
 
         if len(content) > 0:
             new_comment = CommentRepository.save_comment(content, movie_id)
-            return HttpResponse(new_comment)
+            if new_comment:
+                return HttpResponse(new_comment)
+            else:
+                return HttpResponseBadRequest("Unable to create a new comment.")
         else:
             return HttpResponseBadRequest("No content was provided.")
 

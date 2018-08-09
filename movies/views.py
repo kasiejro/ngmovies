@@ -1,13 +1,14 @@
+import json
+
 import requests
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest
 
 from movies.models import Movie, Comment
+
 
 API_URL = 'http://www.omdbapi.com'
 API_KEY = 'ffbdeb5c'
 
 class OmdAPIClient:
-
     @staticmethod
     def get_movie_or_none(title):
         payload = {'t' : title, 'apikey' : API_KEY}
@@ -22,8 +23,8 @@ class OmdAPIClient:
             return r
         return None
 
-class MovieRepository:
 
+class MovieRepository:
     @staticmethod
     def upsert_movie(movie_from_api):
         api_response = movie_from_api.json()
@@ -34,24 +35,22 @@ class MovieRepository:
         else:
             movie_instance = Movie()
 
-            map_response_to_movie(movie_instance, api_response)
+        map_response_to_movie(movie_instance, api_response)
         movie_instance.save()
 
 
 class CommentRepository:
-
     @staticmethod
     def save_comment(content, movie_id):
-        movie = Movie.objects.get(pk=movie_id)
-
-        if movie:
+        try:
+            movie = Movie.objects.get(pk=movie_id)
             new_comment = Comment()
             new_comment.movie = movie
             new_comment.content = content
             new_comment.save()
-            return  new_comment
-        else:
-            HttpResponseBadRequest("Comment content is not provided")
+            return new_comment
+        except:
+            return None
 
 
 def map_response_to_movie(movie_instance, api_response):
