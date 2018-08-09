@@ -25,7 +25,7 @@ SECRET_KEY = '3&l=)v=@kvu!7c!=(&n3)u$ojg4xvt9kkc12@j*3h33!q#7@@m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ngmovies-kr.herokuapp.com']
 
 
 # Application definition
