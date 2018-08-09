@@ -1,4 +1,4 @@
-from django.http import HttpResponse, Http404, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest
 from rest_framework import generics
 
 from .serializers import  MovieSerializer,CommentSerializer
@@ -43,5 +43,11 @@ class CommentCRView(generics.ListCreateAPIView):
         content = request.data.get("content")
         movie_id = request.data.get("movie")
 
-        new_comment = CommentRepository.save_comment(content, movie_id)
-        return HttpResponse(new_comment)
+        if len(content) > 0:
+            new_comment = CommentRepository.save_comment(content, movie_id)
+            return HttpResponse(new_comment)
+        else:
+            return HttpResponseBadRequest("No content was provided.")
+
+    def get_serializer_context(self):
+        return {'request' : self.request}

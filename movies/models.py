@@ -1,5 +1,8 @@
 from django.db import models
 
+from rest_framework.reverse import reverse as api_reverse
+
+
 class Movie(models.Model):
     title = models.CharField(max_length=100)
     imdbID = models.CharField(max_length=20, null=True, blank=True)
@@ -26,3 +29,6 @@ class Movie(models.Model):
 class Comment(models.Model):
     content = models.CharField(max_length=600)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+
+    def get_api_url(self, request=None):
+        return api_reverse("api-movies:movie-comment-r", kwargs={'movie_id' : self.pk}, request=request)

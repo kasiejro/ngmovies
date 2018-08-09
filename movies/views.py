@@ -1,4 +1,5 @@
 import requests
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseBadRequest
 
 from movies.models import Movie, Comment
 
@@ -43,12 +44,14 @@ class CommentRepository:
     def save_comment(content, movie_id):
         movie = Movie.objects.get(pk=movie_id)
 
-        new_comment = Comment()
-        new_comment.movie = movie
-        new_comment.content = content
-        new_comment.save()
-
-        return  new_comment
+        if movie:
+            new_comment = Comment()
+            new_comment.movie = movie
+            new_comment.content = content
+            new_comment.save()
+            return  new_comment
+        else:
+            HttpResponseBadRequest("Comment content is not provided")
 
 
 def map_response_to_movie(movie_instance, api_response):
